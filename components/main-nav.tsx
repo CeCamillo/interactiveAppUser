@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -6,14 +8,11 @@ import { Employee } from "@/types";
 
 interface MainNavProps {
     data: Employee[];
-    error: Error | null;
 };
 
 const MainNav: React.FC<MainNavProps> = ({
     data
 }) => {
-    console.log('Data recebida no componente MainNav:', data); // Console log adicionado
-
     const pathname = usePathname();
 
     const routes = data.map((route) => ({
