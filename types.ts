@@ -4,7 +4,7 @@ export interface Company {
     imageUrl: string;
 };
 
-export interface Employee{
+export interface Employee {
     id: string;
     name: string;
     company: Company;

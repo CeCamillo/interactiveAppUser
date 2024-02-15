@@ -1,11 +1,28 @@
-import Link from "next/link";
+"use client"
 
+import Link from "next/link";
+import { useState, useEffect } from "react";
 import Container from "@/components/ui/container";
 import MainNav from "@/components/main-nav";
 import getEmployees from "@/actions/get-employees";
+import { Employee } from "@/types";
 
-const Navbar = async () => {
-    const employees = await getEmployees();
+const Navbar: React.FC = () => {
+    const [employees, setEmployees] = useState<Employee[]>([]);
+    const [error, setError] = useState<Error | null>(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            getEmployees()
+                .then(data => setEmployees(data))
+                .catch(error => {
+                    setError(error); // Se ocorrer um erro, definimos o estado de error
+                    console.error('Erro ao buscar funcionários:', error);
+                });
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <div className="border-b">
@@ -14,7 +31,7 @@ const Navbar = async () => {
                     <Link href="/" className="ml-4 flex lg:ml-0 gap-x-2">
                         <p className="font-bold text-xl">Interactive APP</p>
                     </Link>
-                    <MainNav data={employees}/>
+                    <MainNav data={employees} error={error} />
                 </div>
             </Container>
         </div>
