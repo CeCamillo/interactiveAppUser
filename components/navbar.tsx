@@ -3,9 +3,19 @@ import Link from "next/link";
 import Container from "@/components/ui/container";
 import MainNav from "@/components/main-nav";
 import getEmployees from "@/actions/get-employees";
+import React from "react";
+import { Employee } from "@/types";
 
 const Navbar = async () => {
-    const employees = await getEmployees();
+    const [employees, setEmployees] = React.useState<Employee[]>([])
+
+    React.useEffect(() => {
+        const fetchEmployees = async () => {
+            const data = await getEmployees()
+            setEmployees(data)
+        }
+        fetchEmployees()
+    })
 
     return (
         <div className="border-b">
